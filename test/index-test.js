@@ -281,9 +281,9 @@ describe('Blackjack:', function(){
       let userScore = wrapper2.props().userCards.reduce((prevCard, currCard) => {return prevCard + currCard.value}, 0)
       let userScoreShow = userScore > 21 ? "BUST" : userScore
       expect(wrapper2.find('ul').text()).toEqual(wrapper2.props().userCards.reduce((prev, curr)=> {return prev + curr.name}, ''), 'does not render new card to page')
-      console.log(userScore)
-      console.log(userScoreShow)
-      console.log(wrapper2.find('h2').text())
+      // console.log(userScore)
+      // console.log(userScoreShow)
+      // console.log(wrapper2.find('h2').text())
       expect(wrapper2.find('h2').text()).toInclude(userScoreShow, 'does not show the right score')
     })
 

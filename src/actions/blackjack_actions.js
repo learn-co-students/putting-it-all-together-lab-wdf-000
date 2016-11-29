@@ -40,8 +40,20 @@ export function setUserCards(board){
   return { type: 'SET_USER_CARDS', payload: {deck: boardCopy.deck, aiCards: aiCards, userCards: selectedCards}}
 }
 
-export function hitAI(){
+export function hitAI(board){
+  let boardCopy = JSON.parse(JSON.stringify(board));
+  let userCards = boardCopy.userCards;
+  let selectedCards = boardCopy.aiCards;
+  let count;
+  let card;
 
+  count = boardCopy.deck.length;
+  card = Math.floor(Math.random()*count);
+  selectedCards.push(boardCopy.deck[card]);
+  boardCopy.deck.splice(card, 1);
+  // console.log(i);
+
+  return {type: 'ADD_CARD', payload: {deck: boardCopy.deck, aiCards: selectedCards, userCards: userCards}}
 }
 
 export function hitUser(board){

@@ -64,7 +64,7 @@ export default (state={userCards: [], aiCards: [], deck: []}, action) => {
     case 'SET_USER_CARDS':
       return action.payload
     case 'ADD_CARD':
-        return action.payload
+      return action.payload
     default:
       return state
   }
