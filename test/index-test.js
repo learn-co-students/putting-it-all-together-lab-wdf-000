@@ -9,7 +9,7 @@ import AIBlackjack from '../src/components/ai_blackjack'
 
 import blackjackReducer from '../src/reducers/blackjack_reducer.js'
 
-import { fetchDeck, setAICards, setUserCards, hit } from '../src/actions/blackjack_actions'
+import { fetchDeck, setAICards, setUserCards, hitUser } from '../src/actions/blackjack_actions'
 
 import { createStore } from '../src/store'
 
@@ -101,17 +101,21 @@ describe('Blackjack:', function(){
     it('is defined in actions', function(){
       expect(setAICards).toExist('setAICards action is not defined')
       store.dispatch(setAICards(store.getState()))
+      // console.log("first setAICards exec")
     })
 
     it('is an action function that sets the AI cards at random through the reducer', function(){
       expect(setAICards).toBeA('function', '`setAICards()` is not a function')
       expect(setAICards(store.getState()).payload.aiCards).toBeA('array', 'payload from `setAICards()` action should include aiCards array')
+          // console.log("second setAICards exec")
       expect(setAICards(deck).payload.aiCards.length).toEqual(2, 'payload from `setAICards()` action should return updated aiCards array with two new card objects')
+          // console.log("third setAICards exec")
       expect(store.getState().aiCards.length).toEqual(2, 'did not properly set the aiCards - hint: deepclone object in setAICards()')
     })
 
     it('removes those two cards from the deck', function(){
       const testSetAICards = setAICards(deck)
+          // console.log("fourth setAICards exec")
       expect(testSetAICards.payload.deck.length).toEqual(50, 'does not remove 2 cards from deck')
       expect(testSetAICards.payload.deck).toExclude(testSetAICards.payload.aiCards[0] && testSetAICards.payload.aiCards[1], 'does not remove the proper cards from the deck')
     })
@@ -277,6 +281,9 @@ describe('Blackjack:', function(){
       let userScore = wrapper2.props().userCards.reduce((prevCard, currCard) => {return prevCard + currCard.value}, 0)
       let userScoreShow = userScore > 21 ? "BUST" : userScore
       expect(wrapper2.find('ul').text()).toEqual(wrapper2.props().userCards.reduce((prev, curr)=> {return prev + curr.name}, ''), 'does not render new card to page')
+      // console.log(userScore)
+      // console.log(userScoreShow)
+      // console.log(wrapper2.find('h2').text())
       expect(wrapper2.find('h2').text()).toInclude(userScoreShow, 'does not show the right score')
     })
 
