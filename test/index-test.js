@@ -9,7 +9,7 @@ import AIBlackjack from '../src/components/ai_blackjack'
 
 import blackjackReducer from '../src/reducers/blackjack_reducer.js'
 
-import { fetchDeck, setAICards, setUserCards, hit } from '../src/actions/blackjack_actions'
+import { fetchDeck, setAICards, setUserCards, hitUser } from '../src/actions/blackjack_actions'
 
 import { createStore } from '../src/store'
 
@@ -99,18 +99,22 @@ describe('Blackjack:', function(){
 
   describe('`setAICards()`', function(){
     it('is defined in actions', function(){
+      //The setAICards function is defined in the actions file
       expect(setAICards).toExist('setAICards action is not defined')
       store.dispatch(setAICards(store.getState()))
+      //we set the ai cards function to whatever the state of the game is
     })
 
     it('is an action function that sets the AI cards at random through the reducer', function(){
       expect(setAICards).toBeA('function', '`setAICards()` is not a function')
+
       expect(setAICards(store.getState()).payload.aiCards).toBeA('array', 'payload from `setAICards()` action should include aiCards array')
       expect(setAICards(deck).payload.aiCards.length).toEqual(2, 'payload from `setAICards()` action should return updated aiCards array with two new card objects')
       expect(store.getState().aiCards.length).toEqual(2, 'did not properly set the aiCards - hint: deepclone object in setAICards()')
     })
 
     it('removes those two cards from the deck', function(){
+
       const testSetAICards = setAICards(deck)
       expect(testSetAICards.payload.deck.length).toEqual(50, 'does not remove 2 cards from deck')
       expect(testSetAICards.payload.deck).toExclude(testSetAICards.payload.aiCards[0] && testSetAICards.payload.aiCards[1], 'does not remove the proper cards from the deck')
@@ -129,6 +133,12 @@ describe('Blackjack:', function(){
       expect(setUserCards(deck).payload.userCards.length).toEqual(2, 'payload from `setUserCards()` action should return updated userCards array with two new card objects')
       expect(store.getState().userCards.length).toEqual(2, 'did not properly set the userCards - hint: deepclone object in setUserCards()')
     })
+
+    //sets the usercARDS randomly through the reducer
+    //randomly choose two cards from the deck
+  //the cards length should b 2
+  //then remove those two cards from the deck array
+  //create a action with type and action as new state
 
     it('removes those two cards from the deck', function(){
       const testSetAICards = setUserCards(deck)
@@ -149,6 +159,10 @@ describe('Blackjack:', function(){
       aiScore = wrapper.props().store.getState().aiCards.reduce((prev, curr)=> {return prev + curr.value}, 0);
     });
 
+    //app component should exist and mounted when render is first called at initial load
+    //add every element in the userCards array using reduce
+    //add every element in the aiCards array using reduce
+
     it('should have access to the store', function () {
       expect(wrapper.props().store).toNotEqual(undefined, 'The `store` does not exist in props')
       expect(wrapper.props().store).toBeA('object', 'The `store` is not an object')
@@ -156,6 +170,8 @@ describe('Blackjack:', function(){
       expect(wrapper.props().store.getState).toBeA('function', '`getState` is not a function')
       expect(wrapper.props().store.subscribe).toBeA('function', '`subscribe` is not a function')
     })
+
+    //
 
     it('should be a class based component', function(){
       expect(wrapper.name()).toEqual('App', '`App` component is not named properly')
@@ -178,6 +194,8 @@ describe('Blackjack:', function(){
       expect(wrapper.node.calculateAiScore).toBeA('function', '`calculateAiScore` is not a function')
       expect(wrapper.node.calculateAiScore()).toEqual(aiScore, '`calculateUserScore` does not return the accurate value')
     })
+
+    //calculateAiScore is function. it returns ai score
 
     it('should have a `calculateUserScore` function which returns the sum of user cards', function(){
       expect(wrapper.node.calculateUserScore).toBeA('function', '`calculateUserScore` is not a function')
@@ -272,13 +290,23 @@ describe('Blackjack:', function(){
     it("should display new user card and re-tally score when user clicks 'Hit Me'", function(){
       const wrapper = mount(<UserBlackjack userCards={store.getState().userCards} score={container.node.calculateUserScore} hitMe={container.node.hitMe}/>)
       let userCards = wrapper.props().userCards
+
+      //wrappeer is the userbaclkjack componenet. userCards is equal to the starte user cards, hitme is to the hitme parent function score is equal to the calculateUsrScore
+
       wrapper.find('form').at(0).simulate('submit')
       const wrapper2 = mount(<UserBlackjack userCards={store.getState().userCards} score={container.node.calculateUserScore} hitMe={container.node.hitMe}/>)
       let userScore = wrapper2.props().userCards.reduce((prevCard, currCard) => {return prevCard + currCard.value}, 0)
+
+      //we should find a form when u stimulate submit
+      //wrapper 2 is again equal to the userblackjack is also equal to the same component
+      //userScore is equal to the wrapper2 consts usercards added aka the calculateUserScore function is evoked
       let userScoreShow = userScore > 21 ? "BUST" : userScore
       expect(wrapper2.find('ul').text()).toEqual(wrapper2.props().userCards.reduce((prev, curr)=> {return prev + curr.name}, ''), 'does not render new card to page')
       expect(wrapper2.find('h2').text()).toInclude(userScoreShow, 'does not show the right score')
     })
+
+    //userScoreShow const is equal to if the return value calculateUserScore is greater the 21 then render "Bust" or the actual score
+    //in the component we find a ul with text that eqals the users score
 
     it("should have a 'Stay' `button` within a second `form`", function(){
       const wrapper = mount(<UserBlackjack userCards={store.getState().userCards} score={function(){}}/>)
