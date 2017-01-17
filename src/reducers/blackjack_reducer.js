@@ -1,3 +1,4 @@
+
 export default (state={}, action) => {
   switch (action.type) {
     case 'FETCH_DECK':
@@ -59,8 +60,13 @@ export default (state={}, action) => {
           {name:"King of Hearts", value: 10}
         ]
       }
+      case "SET_AI_CARDS" :
+      return action.payload
 
-    default:
+      case 'SET_USER_CARDS':
+        return action.payload
+
+      default:
       return state
   }
 }
