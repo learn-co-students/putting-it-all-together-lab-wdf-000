@@ -13,7 +13,6 @@ export const createStore = (reducer) => {
   };
 
   dispatch({});
-    return {
       getState: getState,
       dispatch: dispatch,
       subscribe: subscribe

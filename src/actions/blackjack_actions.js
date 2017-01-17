@@ -35,10 +35,20 @@ export function setUserCards(board){
   return {type: 'SET_USER_CARDS', payload: {deck: random, aiCards: boardCopy.aiCards, userCards: selectedCards}}
 }
 
-export function hitAI(){
-
+export function hitAI(board){
+  let boardCopy = JSON.parse(JSON.stringify(board))
+  let selectedCards = boardCopy.aiCards
+  let random = shuffle(boardCopy.deck)
+  selectedCards.push(random[0])
+  random.splice(0, 1)
+  return {type: 'SET_AI_CARDS', payload: {deck: random, aiCards: selectedCards, userCards: boardCopy.userCards}}
 }
 
-export function hitUser(){
-
+export function hitUser(board){
+  let boardCopy = JSON.parse(JSON.stringify(board));
+  let selectedCards = boardCopy.userCards
+  let random = shuffle(boardCopy.deck)
+  selectedCards.push(random[0])
+  random.splice(0, 1);
+  return {type: 'SET_USER_CARDS', payload: {deck: random, aiCards: boardCopy.aiCards, userCards: selectedCards}}
 }

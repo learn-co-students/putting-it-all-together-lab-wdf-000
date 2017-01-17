@@ -14,4 +14,4 @@ store.dispatch(fetchDeck())
 store.dispatch(setAICards(store.getState()))
 store.dispatch(setUserCards(store.getState()))
 
-require('../test/index-test.js')  // Leave this in!
+// require('../test/index-test.js')  // Leave this in!

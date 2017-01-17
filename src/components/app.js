@@ -13,12 +13,18 @@ export default class App extends React.Component{
     this.calculateUserScore = this.calculateUserScore.bind(this)
   }
 
-  hitMe(){
-
+  hitMe(event){
+    if(event){
+    event.preventDefault()
+    this.props.store.dispatch(hitUser(this.props.store.getState()))
+    }
   }
 
   calculateAiScore(){
-    return this.props.store.getState().aiCards.reduce((a,b) => {return a + b.value},0);
+    var score = this.props.store.getState().aiCards.reduce((a,b) => {return a + b.value},0);
+    let aiScore
+    score > 21 ? aiScore = "BUST" : aiScore = score
+    return aiScore
   }
 
   calculateUserScore(){
@@ -30,11 +36,13 @@ export default class App extends React.Component{
 
   stay(event){
     event.preventDefault()
+    this.props.store.dispatch(hitAI(this.props.store.getState()))
   }
+
 
   render(){
     return <div>
-      <AIBlackjack aiCards={this.props.store.getState().aiCards}/>
+      <AIBlackjack aiCards={this.props.store.getState().aiCards} score={this.calculateAiScore}/>
       <UserBlackjack userCards={this.props.store.getState().userCards} hitMe={this.hitMe} score={this.calculateUserScore} stay={this.stay}/>
     </div>
   }
