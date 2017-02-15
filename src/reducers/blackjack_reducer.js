@@ -60,6 +60,31 @@ export default (state={}, action) => {
         ]
       }
 
+    case 'SET_AI_CARDS':
+      return action.payload
+
+    case 'SET_USER_CARDS':
+      return action.payload
+
+    case 'HIT_AI':
+      let newAIState = Object.assign({}, state);
+      newAIState.aiCards = [...newAIState.aiCards, action,payload];
+
+      let removedAIIndex = newAIState.deck.findIndex( (card) => { card === action.payload } );
+      newAIState.splice(removedAIIndex, 1);
+
+      return newAIState;
+
+    case 'HIT_USER':
+
+      let newUserState = Object.assign({}, state);
+      newUserState.userCards = [...newUserState.userCards, action,payload];
+
+      let removedUserIndex = newUserState.deck.findIndex( (card) => { card === action.payload } );
+      newUserState.splice(removedUserIndex, 1);
+
+      return newUserState;
+
     default:
       return state
   }
