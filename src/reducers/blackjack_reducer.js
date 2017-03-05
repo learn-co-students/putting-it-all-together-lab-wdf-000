@@ -1,5 +1,21 @@
 export default (state={}, action) => {
   switch (action.type) {
+    case 'SET_AI_CARDS':
+      return action.payload
+      
+
+    case 'SET_USER_CARDS':
+      return action.payload
+      
+
+    case 'HIT_AI':
+      return action.payload
+      
+
+    case 'HIT_USER':
+      return action.payload
+      
+
     case 'FETCH_DECK':
       return {
         userCards: [],

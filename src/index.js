@@ -1,9 +1,17 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-import App from './components/app'
+import { createStore } from './store';
 
-ReactDOM.render(<App store={store}/>, document.getElementById('container'))
+import App from './components/app'
+import blackjackReducer from './reducers/blackjack_reducer'
+import { fetchDeck, setAICards, setUserCards } from './actions/blackjack_actions'
+
+const store = createStore(blackjackReducer)
+
+const render = () => {
+  ReactDOM.render(<App store={store}/>, document.getElementById('container'))
+}
 
 store.subscribe(render)
 store.dispatch(fetchDeck())

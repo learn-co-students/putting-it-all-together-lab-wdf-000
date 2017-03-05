@@ -9,7 +9,7 @@ import AIBlackjack from '../src/components/ai_blackjack'
 
 import blackjackReducer from '../src/reducers/blackjack_reducer.js'
 
-import { fetchDeck, setAICards, setUserCards, hit } from '../src/actions/blackjack_actions'
+import { fetchDeck, setAICards, setUserCards, hitUser } from '../src/actions/blackjack_actions'
 
 import { createStore } from '../src/store'
 
@@ -273,8 +273,14 @@ describe('Blackjack:', function(){
       const wrapper = mount(<UserBlackjack userCards={store.getState().userCards} score={container.node.calculateUserScore} hitMe={container.node.hitMe}/>)
       let userCards = wrapper.props().userCards
       wrapper.find('form').at(0).simulate('submit')
+
+      console.log('UC1:', userCards)
+
       const wrapper2 = mount(<UserBlackjack userCards={store.getState().userCards} score={container.node.calculateUserScore} hitMe={container.node.hitMe}/>)
+
       let userScore = wrapper2.props().userCards.reduce((prevCard, currCard) => {return prevCard + currCard.value}, 0)
+
+
       let userScoreShow = userScore > 21 ? "BUST" : userScore
       expect(wrapper2.find('ul').text()).toEqual(wrapper2.props().userCards.reduce((prev, curr)=> {return prev + curr.name}, ''), 'does not render new card to page')
       expect(wrapper2.find('h2').text()).toInclude(userScoreShow, 'does not show the right score')
