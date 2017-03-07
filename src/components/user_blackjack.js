@@ -1,7 +1,6 @@
 import React from 'react'
 
 export default (props) => {
-  console.log(props.userCards)
   return (
     <div>
       <h1>Player1</h1>

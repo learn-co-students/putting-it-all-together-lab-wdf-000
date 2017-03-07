@@ -3,6 +3,12 @@ import UserBlackjack from './user_blackjack'
 import AIBlackjack from './ai_blackjack'
 import {hitUser, hitAI} from '../actions/blackjack_actions'
 
+// import React, { Component } from 'react'
+// import UserBlackjack from './user_blackjack'
+// import AIBlackjack from './ai_blackjack'
+// import { hitAi, hitUser } from '../actions/blackjack_actions'
+
+
 export default class App extends React.Component {
   constructor(props){
     super(props)
@@ -11,11 +17,12 @@ export default class App extends React.Component {
     this.calculateAiScore = this.calculateAiScore.bind(this)
     this.stay = this.stay.bind(this)
   }
+
   hitMe(user){
     if (user==='user') {
-      this.props.store.dispatch(hitUser(this.props.store.getState()))
+      this.props.store.dispatch(hitUser(this.props.store.getState().deck))
     } else {
-      this.props.store.dispatch(hitAI(this.props.store.getState()))
+      this.props.store.dispatch(hitAI(this.props.store.getState().deck))
     }
   }
   calculateAiScore(){
@@ -31,10 +38,11 @@ export default class App extends React.Component {
   calculateUserScore(){
     const userScore = this.props.store.getState().userCards.reduce((total, curr) => {
             return total += curr.value}, 0)
-    console.log(userScore)
     if (userScore > 21) {
       return "BUST"
-    }else {
+    } else if (this.calculateAiScore() === "BUST"){
+      return "YOU WIN!!"
+    } else {
       return userScore
     }
   }
@@ -42,10 +50,10 @@ export default class App extends React.Component {
   stay(){
     const aiScore = this.calculateAiScore();
     const userScore = this.calculateUserScore();
-    if (userScore > aiScore && userScore !== 'BUST'){
+    if (userScore !== 'BUST'){
+      if (userScore > aiScore || aiScore === "BUST"){
       return
-    }
-    else {
+     }
       this.hitMe()
     }
   }

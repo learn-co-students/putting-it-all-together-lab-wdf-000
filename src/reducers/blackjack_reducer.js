@@ -1,21 +1,5 @@
 export default (state={}, action) => {
   switch (action.type) {
-    case 'SET_AI_CARDS':
-      return action.payload
-      
-
-    case 'SET_USER_CARDS':
-      return action.payload
-      
-
-    case 'HIT_AI':
-      return action.payload
-      
-
-    case 'HIT_USER':
-      return action.payload
-      
-
     case 'FETCH_DECK':
       return {
         userCards: [],
@@ -75,6 +59,30 @@ export default (state={}, action) => {
           {name:"King of Hearts", value: 10}
         ]
       }
+
+      case 'SET_AI_CARDS':
+        return action.payload
+
+      case 'SET_USER_CARDS':
+        return action.payload
+
+      case 'HIT_USER':
+        let userState = Object.assign({}, state)
+        userState.userCards = [...userState.userCards, action.payload]
+
+        let removeUserCardIndex = userState.deck.findIndex((card)=>card===action.payload)
+        userState.deck.splice(removeUserCardIndex, 1)
+
+        return userState
+
+      case 'HIT_AI':
+        let aiState = Object.assign({}, state)
+        aiState.aiCards = [...aiState.aiCards, action.payload]
+
+        let removeAiCardIndex = aiState.deck.findIndex((card)=>card===action.payload)
+        aiState.deck.splice(removeAiCardIndex, 1)
+
+        return aiState
 
     default:
       return state

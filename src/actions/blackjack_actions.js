@@ -19,6 +19,7 @@ export function setAICards(deck) {
   }
 }
 
+
 export function setUserCards(deck) {
   let deckCopy = JSON.parse(JSON.stringify(deck))
 
@@ -35,27 +36,22 @@ export function setUserCards(deck) {
 }
 
 export function hitAI(deck) {
-  let deckCopy = JSON.parse(JSON.stringify(deck))
-  const randomIndex = Math.floor(Math.random() * deckCopy.deck.length)
-  const newAICard = deckCopy.deck[randomIndex]
-  deckCopy.aiCards.push(newAICard)
-  deckCopy.deck.splice(randomIndex, 1)
+  const randomIndex = Math.floor(Math.random() * deck.length)
+  const newAICard = deck[randomIndex]
 
   return {
     type: 'HIT_AI',
-    payload: {deck: deckCopy, aiCards: deckCopy.aiCards, userCards: deckCopy.userCards}
+    payload: newAICard
   }  
 }
 
 export function hitUser(deck) {
-  let deckCopy = JSON.parse(JSON.stringify(deck))
-  const randomIndex = Math.floor(Math.random() * deckCopy.deck.length)
-  const newUserCard = deckCopy.deck[randomIndex]
-  deckCopy.userCards.push(newUserCard)
-  deckCopy.deck.splice(randomIndex, 1)
+
+  const randomIndex = Math.floor(Math.random() * deck.length)
+  const newUserCard = deck[randomIndex]
 
   return {
     type: 'HIT_USER',
-    payload: {deck: deckCopy, aiCards: deckCopy.aiCards, userCards: deckCopy.userCards}
+    payload: newUserCard
   }
 }
