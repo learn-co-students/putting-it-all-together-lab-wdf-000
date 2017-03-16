@@ -5,22 +5,30 @@ export function fetchDeck() {
 }
 
 export function setAICards(state) {
-  let deck = state.deck
-  let card_1 = deck[Math.floor ( Math.random() * deck.length )]
-  let card_2 = deck[Math.floor ( Math.random() * deck.length )]
+  let clone = JSON.parse(JSON.stringify(state))
+  for (var i = 0; i < 2; i++) {
+    const rand = Math.floor( Math.random() * clone.deck.length )
+    clone.aiCards.push(clone.deck[rand])
+    clone.deck.splice(rand, 1)
+  }
+
   return {
     type: 'SET_AI_CARDS',
-    payload: [card_1, card_2]
+    payload: clone
   }
 }
 
 export function setUserCards(state) {
-  let deck = state.deck
-  let card_1 = deck[Math.floor ( Math.random() * deck.length )]
-  let card_2 = deck[Math.floor ( Math.random() * deck.length )]
+  let clone = JSON.parse(JSON.stringify(state))
+  for (var i = 0; i < 2; i++) {
+    const rand = Math.floor( Math.random() * clone.deck.length )
+    clone.userCards.push(clone.deck[rand])
+    clone.deck.splice(rand, 1)
+  }
+
   return {
     type: 'SET_USER_CARDS',
-    payload: [card_1, card_2]
+    payload: clone
   }
 }
 
