@@ -66,6 +66,20 @@ export default (state={}, action) => {
     case 'SET_USER_CARDS':
       return action.payload
 
+    case 'HIT_AI':
+      let nState = Object.assign({}, state)
+      nState.aiCards = [...nState.aiCards, action.payload]
+      let ind = nState.deck.indexOf(action.payload)
+      nState.deck.splice(ind, 1)
+      return nState
+
+    case 'HIT_USER':
+      let nuState = Object.assign({}, state)
+      nuState.userCards = [...nuState.userCards, action.payload]
+      let indy = nuState.deck.indexOf(action.payload)
+      nuState.deck.splice(indy, 1)
+      return nuState
+
     default:
       return state
   }
