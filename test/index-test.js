@@ -176,7 +176,7 @@ describe('Blackjack:', function(){
 
     it('should have a `calculateAiScore` function which returns the sum of ai cards', function(){
       expect(wrapper.node.calculateAiScore).toBeA('function', '`calculateAiScore` is not a function')
-      expect(wrapper.node.calculateAiScore()).toEqual(aiScore, '`calculateUserScore` does not return the accurate value')
+      expect(wrapper.node.calculateAiScore()).toEqual(aiScore, '`calculateAiScore` does not return the accurate value')
     })
 
     it('should have a `calculateUserScore` function which returns the sum of user cards', function(){
