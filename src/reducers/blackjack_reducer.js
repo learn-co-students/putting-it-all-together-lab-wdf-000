@@ -60,6 +60,8 @@ export default (state={}, action) => {
         ]
       }
 
+    // case 'SET_AI_CARDS'
+
     default:
       return state
   }
